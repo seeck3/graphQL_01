@@ -20,7 +20,7 @@ const BookType = new GraphQLObjectType({
         genre: { type: GraphQLString },
         author: {
             type: AuthorType,
-            resolve(parentValue, args){
+            resolve(parentValue, args) {
                 return Author.findById(parentValue.authorId);
             }
         }
@@ -35,8 +35,8 @@ const AuthorType = new GraphQLObjectType({
         age: { type: GraphQLInt },
         books: {
             type: new GraphQLList(BookType),
-            resolve(parentValue, args){
-                return Book.find({authorId: parentValue.id})
+            resolve(parentValue, args) {
+                return Book.find({ authorId: parentValue.id })
             }
         }
     })
@@ -63,14 +63,14 @@ const RootQuery = new GraphQLObjectType({
         },
         books: {
             type: new GraphQLList(BookType),
-            resolve(parentValue, args){
+            resolve(parentValue, args) {
                 // return books
                 return Book.find({});
             }
         },
         authors: {
             type: new GraphQLList(AuthorType),
-            resolve(parentValue, args){
+            resolve(parentValue, args) {
                 // return authors
                 return Author.find({});
             }
@@ -80,14 +80,14 @@ const RootQuery = new GraphQLObjectType({
 
 const Mutation = new GraphQLObjectType({
     name: 'Mutation',
-    fields:{
-        addAuthor:{
+    fields: {
+        addAuthor: {
             type: AuthorType,
             args: {
-                name: {type: GraphQLNonNull(GraphQLString)},
-                age: {type: GraphQLNonNull(GraphQLID)}
+                name: { type: GraphQLNonNull(GraphQLString) },
+                age: { type: GraphQLNonNull(GraphQLString) }
             },
-            resolve(parentValue, args){
+            resolve(parentValue, args) {
                 let author = new Author({
                     name: args.name,
                     age: args.age
@@ -98,11 +98,11 @@ const Mutation = new GraphQLObjectType({
         addBook: {
             type: BookType,
             args: {
-                name: {type: new GraphQLNonNull(GraphQLString)},
-                genre: {type: new GraphQLNonNull(GraphQLString)},
-                authorId: {type: new GraphQLNonNull(GraphQLID)}
+                name: { type: new GraphQLNonNull(GraphQLString) },
+                genre: { type: new GraphQLNonNull(GraphQLString) },
+                authorId: { type: new GraphQLNonNull(GraphQLID) }
             },
-            resolve(parentValue, args){
+            resolve(parentValue, args) {
                 let book = new Book({
                     name: args.name,
                     genre: args.genre,
